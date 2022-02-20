@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import Btn from './component/btn';
+import Counter from './component/counter';
 
 const App = () => {
     const name = 'SeonWoo';
@@ -12,7 +13,8 @@ const App = () => {
                     else return 'NO';
                 })()}
             </Text>
-            <Btn/>
+            <Btn onPress={() => alert('부모 컴포넌트가 보내는 스트링 출력')}/>
+            <Counter/>
         </View>
     );
 }
