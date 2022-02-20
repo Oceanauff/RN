@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import Btn from './component/btn';
 import Counter from './component/counter';
+import EventInput from './component/EventInput';
 
 const App = () => {
     const name = 'SeonWoo';
@@ -15,6 +16,7 @@ const App = () => {
             </Text>
             <Btn onPress={() => alert('부모 컴포넌트가 보내는 스트링 출력')}/>
             <Counter/>
+            <EventInput/>
         </View>
     );
 }
@@ -32,3 +34,4 @@ const styles = StyleSheet.create({
 });
 
 export default App;
+
