@@ -28,8 +28,8 @@ const Input = ({ placeholder, value, onChangeText, onSubmitEditing }) => {
             returnKeyType="done"
             keyboardAppearance="dark"
             value={value}
-            onChangeText={onChangeText}
-            onSubmitEditing={onSubmitEditing}
+            onChangeText={onChangeText} // 해당 함수 실행 됨
+            onSubmitEditing={onSubmitEditing} // 해당 함수 실행 됨
         />
     );
 };
