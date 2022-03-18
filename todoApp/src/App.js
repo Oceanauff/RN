@@ -31,14 +31,46 @@ const List = styled.ScrollView`
 export default function App () {
     const width = Dimensions.get('window').width;
     const [newTask, setNewTask] = useState(''); //newTask : 상태변수, setNewTask : 세터함수
+    const [tasks, setTasks] = useState({
+        '1': { id: '1', text: 'Hanbit', completed: false},
+        '2': { id: '2', text: 'React Native', completed: true},
+        '3': { id: '3', text: 'React Native Sample', completed: false},
+        '4': { id: '4', text: 'Edit TODO Item', completed: false}, 
+    });
 
     const _addTask = () => {
-        alert(`Add: ${newTask}`);
-        setNewTask(''); // 완료버튼 클릭 시 입력된 내용을 확인하고 input컴포넌트를 초기화 함
+        const ID = Date.now().toString();
+        const newTaskObject = {
+            [ID]: { id: ID, text: newTask, completed: false },
+        };
+        setNewTask('');
+        setTasks({ ...tasks, ...newTaskObject });
+    };
+
+    const _deleteTask = id => {
+        const currentTasks = Object.assign({}, tasks);
+        delete currentTasks[id];
+        setTasks(currentTasks);
+    };
+
+    const _toggletask = id => {
+        const currentTasks = Object.assign({}, tasks);
+        currentTasks[id]['completed'] = !currentTasks[id]['completed'];
+        setTasks(currentTasks);
+    };
+
+    const _updateTask = item => {
+        const currentTasks = Object.assign({}, tasks);
+        currentTasks[item.id] = item;
+        setTasks(currentTasks);
     };
 
     const _handleTextChange = text => {
         setNewTask(text); // input컴포넌트에서 값이 변할 때마다 newTrack에 저장됨
+    };
+
+    const _onBlur = () => {
+        setNewTask('');
     };
 
     return (
@@ -54,12 +86,19 @@ export default function App () {
                     value={newTask}
                     onChangeText={_handleTextChange}
                     onSubmitEditing={_addTask}
+                    onBlur={_onBlur}
                 />
                 <List width={width}>
-                    <Task text="Hanbit" />
-                    <Task text="React Native" />
-                    <Task text="React Native Sample" />
-                    <Task text="Edit TODO Item" />
+                    {Object.values(tasks)
+                    .reverse()
+                    .map(item => (
+                        <Task 
+                        key={item.id} 
+                        item={item} 
+                        deleteTask={_deleteTask} 
+                        toggleTask={_toggletask} 
+                        updateTask={_updateTask} />
+                    ))}
                 </List>
                 {/* <IconButton type={images.uncompleted} />
                 <IconButton type={images.completed} />

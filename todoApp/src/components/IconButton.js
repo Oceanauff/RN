@@ -7,22 +7,32 @@ import { images } from '../images';
 // 이미지 종류별로 컴포넌트를 만들지 않고, IconButton컴포넌트를 호출할 때 원하는 이미지의 종류를 props에 type으로 전달함
 
 const Icon = styled.Image`
-    tint-color: ${({ theme }) => theme.text};
+    tint-color: ${({ theme, completed }) => 
+        completed ? theme.done : theme.text};
     width: 30px;
     height: 30px;
     margin: 10px;
 `;
-const IconButton = ({ type, onPressOut}) => {
+const IconButton = ({ type, onPressOut, id, completed}) => {
+    const _onPressOut = () => {
+        onPressOut(id);
+    }
     return(
-        <Pressable onPressOut={onPressOut}>
-            <Icon source={type} />
+        <Pressable onPressOut={_onPressOut}>
+            <Icon source={type} completed={completed} />
         </Pressable>
     );
+};
+
+IconButton.defaultProps = {
+    onPressOut: () => {},
 };
 
 IconButton.PropTypes = {
     type: PropTypes.oneOf(Object.values(images)).isRequired,
     onPressOut: PropTypes.func,
+    id: PropTypes.string,
+    completed: PropTypes.bool,
 };
 
 export default IconButton;
